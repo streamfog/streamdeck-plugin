@@ -1,0 +1,12 @@
+{
+	"Description": "Create a sample clock.", 
+	"Name": "AR Overlay",
+	"Category": "Clocks",
+	"com.streamfog.overlay.action": {
+		"Name": "AR Overlay",
+		"Tooltip": "Create a tiny clock."
+	},
+	"Localization": {
+		"Weekday": "Weekday"
+	}
+}

@@ -1,0 +1,43 @@
+{
+    "Actions": [
+        {
+            "Icon": "action/images/cube",
+            "Name": "Play AR Overlay",
+            "States": [
+                {
+                    "Image": "streamfog_logo"
+                }
+            ],
+            "Controllers": [
+                "Keypad"
+            ],
+            "SupportedInMultiActions": true,
+            "Tooltip": "Your room - a stage. With a Button.",
+            "UUID": "com.streamfog.overlay.action"
+        }
+    ],
+    "SDKVersion": 2,
+    "Author": "Streamfog",  
+    "CodePath": "index.html",
+    "PropertyInspectorPath": "action/property-inspector/inspector.html",
+    "Description": "Trigger your AR alerts with style.",
+    "Category": "Streamfog",
+    "CategoryIcon": "categoryicon",
+    "Name": "AR Overlay",
+    "Icon": "augmented-reality",
+    "URL": "https://www.elgato.com/gaming/stream-deck",
+    "Version": "0.1.1.04",
+    "OS": [
+        {
+            "Platform": "mac",
+            "MinimumVersion": "10.11"
+        },
+        {
+            "Platform": "windows",
+            "MinimumVersion": "10"
+        }
+    ],
+    "Software": {
+        "MinimumVersion": "6"
+    }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<head>
+    <title>AR Overlay</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="../../libs/css/sdpi.css">
+</head>
+
+<body>
+    <div class="sdpi-wrapper hidden">
+        <div class="sdpi-item" id="select_single">
+            <div class="sdpi-item-label">Overlay</div>
+            <select class="sdpi-item-value select" id="overlay_select">
+            </select>
+        </div>
+    </div>
+
+    <script src="../../libs/js/constants.js"></script>
+    <script src="../../libs/js/events.js"></script>
+    <script src="../../libs/js/api.js"></script>
+    <script src="../../libs/js/property-inspector.js"></script>
+    <script src="../../libs/js/dynamic-styles.js"></script>
+
+    <script>
+        let MSETTINGS = {
+            selectedOverlay: "",
+            overlayPath: ""
+        };
+        console.log(MSETTINGS);
+
+        $PI.on('connected', async (jsn) => {
+            console.log(MSETTINGS);
+            MSETTINGS = jsn?.actionInfo?.payload?.settings || {};
+
+            console.log(MSETTINGS);
+
+            const url = 'http://localhost:5000/overlays';
+
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+
+            // Create a promise that rejects in <5s
+            const timeout = new Promise((resolve, reject) => {
+                const id = setTimeout(() => {
+                    clearTimeout(id);
+                    reject(new Error('Request took longer than 1 second'));
+                }, 1000)
+            })
+
+            // Create a promise that sends the POST request
+            const fetchPromise = fetch(url, {
+                method: 'GET',
+                headers: headers
+            });
+
+            // Initiate a "race" between the two promises
+            try {
+                const response = await Promise.race([fetchPromise, timeout]);
+                if (response.ok) { // if HTTP-status is 200-299
+                    // get the response body
+                    const json = await response.json();
+                    console.log(json);
+                    const select = document.getElementById('overlay_select');
+
+                    MSETTINGS.overlayPath =  json.overlayPath;
+
+                    const option = document.createElement('option');
+                    option.value = "";
+                    option.text = "None";
+                    select.add(option);
+
+                    json.folders.forEach(folder => {
+                        const option = document.createElement('option');
+                        option.value = folder;
+                        option.text = folder;
+                        select.add(option);
+                    });
+                    console.log(MSETTINGS);
+                } else {
+                    console.error("HTTP-Error: " + response.status);
+                    document.getElementById('overlay_select').disabled = true;
+                }
+
+            } catch (error) {
+                console.log(error);
+                document.getElementById('overlay_select').disabled = true;
+            }
+
+           
+            const overlaySelector = document.getElementById('overlay_select');
+            if (overlaySelector) {
+                overlaySelector.value = MSETTINGS.selectedOverlay;
+                overlaySelector.onchange = () => {
+                    MSETTINGS.selectedOverlay = overlaySelector.options[overlaySelector.selectedIndex].value;
+                    $PI.setSettings(MSETTINGS);
+                };
+            }
+
+            // Finally show the UI
+            document.querySelector('.sdpi-wrapper').classList.remove('hidden');
+        });
+        document.querySelector('.sdpi-wrapper').classList.remove('hidden');
+
+    </script>
+</body>
+
+</html>
