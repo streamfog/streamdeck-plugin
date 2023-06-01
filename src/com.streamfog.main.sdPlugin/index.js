@@ -78,7 +78,7 @@ class PlayOverlayAction {
         console.log("asd");
         console.log()
         if (this.settings.selectedOverlay !== "" && this.settings.overlayPath !== "") {
-            const icon = this.settings.overlayPath + "\\" + this.settings.selectedOverlay + "\\thumbnail.jpg";
+            const icon = this.settings.overlayPath + "/" + this.settings.selectedOverlay + "/thumbnail.jpg";
             console.log(icon);
             if (this.isEncoder) {
                 console.log("im encoder");
@@ -122,7 +122,7 @@ class PlayOverlayAction {
     async playAnimation() {
 
         if (this.settings.selectedOverlay !== "" && this.settings.overlayPath !== "") {
-            const url = 'http://localhost:5000/animationStatus';
+            const url = 'http://localhost:5023/animationStatus';
 
             // Define the headers for the request
             const headers = {
@@ -169,7 +169,7 @@ class PlayOverlayAction {
     async playAnimationOnKey() {
 
 
-        const gif_path = this.settings.overlayPath + "\\" + this.settings.selectedOverlay + "\\preview.gif";
+        const gif_path = this.settings.overlayPath + "/" + this.settings.selectedOverlay + "/preview.gif";
         const response = await fetch(gif_path);
         const blob = await response.blob();
         const arrayBuffer = await blob.arrayBuffer();
